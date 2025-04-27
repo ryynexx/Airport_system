@@ -125,8 +125,51 @@ class Flight : public Airport
 
 
 class Airline : public Flight
-{
 
+    
+{
+	private:
+		
+		string name;
+		string code;
+	flight* flights[10];
+	
+	public:
+		
+		airline(string n, string c, string f)
+		{
+			name=n;
+			code=c;
+			flight=f;
+		}
+		
+		void input()
+		{
+			int n;
+		flight* flights[10];
+			
+			cout<<"enter number of flights:";
+			cin>>n;
+			
+			for(int i=0;i<n;i++)
+			{
+				cout<<"flight name:";
+				cin>>flights[i].name;
+				
+				cout<<"flight code:";
+				cin>>flights[i].code;
+			}
+		}
+		
+		void display()
+		{
+				for(int i=0;i<n;i++)
+			{
+				cout<<flights[i].name;
+				
+				cout<<flights[i].code;
+			}
+		}
 };
 class Staff : public Airport
 {
