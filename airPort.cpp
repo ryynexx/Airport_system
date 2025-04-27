@@ -50,8 +50,80 @@ class Airport
 
 class Flight : public Airport
 {
-
+   private: 
+  string flightNumber;
+  string destination;
+  string departureTime;
+  string arrivalTime;
+  string airline;
+  bool available_seat;
+  
+  public:
+  	flight(string flightno, string dest, string depttime, string arrtime, string air, bool avail)
+  {
+  	flightNumber=flightno;
+  	destination=dest;
+  	departureTime=depttime;
+  	arrivalTime=arrtime;
+  	airline=air;
+  	available_seat=avail;
+	  }	
+	  
+	 void input()
+	  {
+	  	cout<<"enter flight no:"<<endl;
+	  	cin>>flightNumber;
+	  	
+	  	cout<<"enter destination:"<<endl;
+	  	cin>>destination;
+	  	
+	  	cout<<"enter depart time:"<<endl;
+	  	cin>>departureTime;
+	  	
+	  	cout<<"enter arrival time:"<<endl;
+	  	cin>>arrivalTime;
+	  	
+	  	cout<<"enter airline:"<<endl;
+	  	cin>>airline;
+	  	
+	  }
+	  
+	  bool seat()
+	  {
+	  	return available_seat;
+	  }
+	  
+	  void changeTime(string departtime , string arritime)
+	  {
+	  	departureTime=departtime;
+	  	arrivalTime=arritime;
+	  }
+	  
+	  void display()
+	  {
+	  
+	  	cout<<flightNumber;
+	  	
+	  	cout<<destination;
+	  	
+	  	cout<<departureTime;
+	
+	  	cout<<arrivalTime;
+	  	
+	  	cout<<airline;
+	  	
+	  cout <<"seat available:";
+	  if(seat())
+	  {
+     cout<<	"yes seat is available";
+	  }
+	  else
+	  {
+	  	cout<<"no it's not'";
+	  }
 };
+
+
 class Airline : public Flight
 {
 
