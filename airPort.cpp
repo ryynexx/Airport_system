@@ -221,7 +221,129 @@ class Passenger : public Airport
 };
 class Ticket : public Passenger
 {
+     class ticket
+{
+    private:
+    string ticket_number;
+    string seat_number;
+    Flight flight;
+    double price;
+    public:
     
+    ticket();
+    ticket(string ticket_number,string seat_number,double price,Flight flight);
+    virtual ~ticket();
+
+  
+    //setters
+    void setticket_number(string ticket_number);
+    void setseat_number(string seat_number);
+    void setprice(double price);
+    void setFlight(Flight flight);
+    
+    //getters
+    string getticket_number();
+    string getseat_number();
+    double getprice();
+    Flight  getFlight();
+
+    virtual void bookticket();
+    virtual void cancelticket();
+    virtual void display();
+
+
+
+};
+ticket::ticket()
+{
+    ticket_number=" ";
+    seat_number=" ";
+    price=0;
+    flight=flight;
+
+}
+ticket::ticket(string ticket_number,string seat_number,double price,Flight flight)
+{
+    setticket_number(ticket_number);
+    setseat_number(seat_number);
+    setprice(price);
+    setFlight(flight);
+}
+ticket::~ticket()
+{
+    cout<<"this is the destructor of the class ticket"<<endl;
+}
+ void ticket::setticket_number(string ticket_number)
+ {
+    this->ticket_number=ticket_number;
+ }
+void ticket::setseat_number(string setseat_number)
+{
+     this->seat_number=seat_number;
+}
+void ticket::setprice(double price)
+{
+     this->price=price;
+}
+void ticket::setFlight(Flight flight)
+{
+     this->flight=fligth;
+}
+string ticket::getticket_number()
+{
+    return ticket_number;
+}
+string ticket::getseat_number()
+{
+     return seat_number;
+}
+double ticket::getprice()
+{
+     return price;
+}
+Flight ticket::getFlight()
+{
+     return flight;
+}
+void ticket::bookticket()
+{  
+    cout << "Booking Ticket:" << endl;
+    cout << "Enter ticket number: ";
+    cin >> ticket_number;
+
+    cout << "Enter seat number: ";
+    cin >> seat_number;
+
+    cout << "Enter price: ";
+    cin >> price;
+
+    string flightNumber;
+    cout << "Enter flight number: ";
+    cin >> flightNumber;
+    flight.setFlightNumber(flightNumber);
+
+    cout << "Ticket booked successfully!" << endl;
+
+}
+void ticket::cancelticket()
+{
+    cout << "Cancelling ticket: " << ticket_number << endl;
+    ticket_number = " ";
+    seat_number = " ";
+    price = 0;
+    flight.setFlightNumber(" ");
+    cout << "Ticket cancelled." << endl;
+}
+void ticket::display()
+{
+    cout << " Ticket Information:" << endl;
+    cout << "Ticket Number: " << ticket_number << endl;
+    cout << "Seat Number: " << seat_number << endl;
+    cout << "Price: $" << price << endl;
+    cout << "Flight Details:" << endl;
+    flight.display();
+}
+
 };
 class Baggage : public Passenger
 {
