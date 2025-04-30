@@ -61,7 +61,8 @@ class Airport
          // Virtual function for polymorphism
         virtual void display()
         {
-            cout<<"Airport: "<<name<<"\n";
+            cout<<"\n-----------Airport Details-------------\n";
+            cout<<"\nAirport: "<<name<<"\n";
             cout<<"Location: "<<location<<"\n";
             cout<<"Airport code: "<<code<<"\n";
         }
@@ -92,21 +93,21 @@ class Flight : public Airport
     // Input flight data
 	 void input()
 	  {
-	  	cout<<"Enter Flight No. "<<endl;
-        cin.ignore();
+	  	cout<<"Enter Flight No. "<<endl; 
 	  	getline(cin, flightNumber);
-	  	
-	  	cout<<"Enter destination:"<<endl;
-          cin.ignore();
+	  	cin.ignore();
+
+	  	cout<<"Enter destination:"<<endl;  
 	  	getline(cin, destination);
-	  	
+	  	 cin.ignore();
+
 	  	cout<<"Enter Departure time:"<<endl;
-          cin.ignore();
 	  	getline(cin, departureTime);
-	  	
+	  	  cin.ignore();
+
 	  	cout<<"Enter arrival time:"<<endl;
-          cin.ignore();
 	  	getline(cin, arrivalTime);
+          cin.ignore();
 	  }
     
       // Getters
@@ -156,7 +157,7 @@ class Flight : public Airport
 	   void display()
 	  {
         Airport::display();
-	    cout<<"\nFlight Details\n\n";
+	    cout<<"\n------------------Flight Details------------------------\n\n";
 	  	cout<<"Flight Number : "<<flightNumber<<endl;
 	  	
 	  	cout<<"Destination : "<<destination<<endl;
@@ -244,7 +245,8 @@ class Flight : public Airport
              // Display airline details
             void display()
             {
-                cout<<"Airline : "<<airline_name<<endl;
+                cout<<"\n-------------------Airline Details-------------------\n";
+                cout<<"\nAirline : "<<airline_name<<endl;
                 cout<<"Airline Code : "<<airline_code<<endl;
                 cout<<"Number of Flights : "<<num_flights<<endl;
                 for(int i =0; i<num_flights;i++)
@@ -303,7 +305,7 @@ class Flight : public Airport
         {
             Airport :: display();
 
-            cout<<"\nEmployee Details : \n\n";
+            cout<<"\n----------------------Employee Details--------------------- \n\n";
             cout<<"Name : "<<emp_name<<endl;
             cout<<"ID : "<<emp_id<<endl;
             cout<<"Contact No. "<<emp_contact<<endl;
@@ -364,85 +366,6 @@ void Staff::remove_task()
     cout << tasks.back() << "/Task Removed"<<endl;
 }
 
-// Forward declaration
-class Baggage;
-
-// Passenger class inherits Airport, has a list of Baggage (composition)
-class Passenger : public Airport
-{
-protected:
-    string name;
-    int id;
-    int contact;
-    string passportnumber;
-    vector<Baggage> baggageList;
-
-public:
-    Passenger() {}
-    virtual ~Passenger() {}
-
-    Passenger(string airname, string loc, int code,
-              string pname, int pid, int cont, string pass_no)
-        : Airport(airname, loc, code), name(pname), id(pid), contact(cont), passportnumber(pass_no) {}
-
-    string get_name() { return name; }
-    int get_id() { return id; }
-    int get_contact() { return contact; }
-    string get_passport() { return passportnumber; }
-
-    // New: Register passenger
-    void registerPassenger()
-    {
-        cout << "Registering Passenger...\n";
-        cout << "Enter Name: ";
-        cin.ignore();
-        getline(cin, name);
-        cout << "Enter ID: ";
-        cin >> id;
-        cout << "Enter Contact Number: ";
-        cin >> contact;
-        cout << "Enter Passport Number: ";
-        cin >> passportnumber;
-        cout << "Passenger registered successfully.\n";
-    }
-
-    // New: Check-in method
-    void checkIn()
-    {
-        cout << "Checking in passenger: " << name << "\n";
-        cout << "Passport: " << passportnumber << "\n";
-        cout << "Contact: " << contact << "\n";
-        cout << "Check-in completed successfully.\n";
-    }
-    friend class Baggage; // Declared as a friend
-
-    void addBaggage(const Baggage &b)
-    {
-        baggageList.push_back(b);
-        cout << "Baggage added for passenger: " << name << endl;
-    }
-
-    void showBaggage()
-    {
-        cout << "Baggage details for passenger: " << name << endl;
-        for (size_t i = 0; i < baggageList.size(); ++i) 
-        {
-            baggageList[i].display();
-            cout << "----------------------\n";
-        }
-        
-    }
-
-    virtual void display()
-    {
-        Airport::display();
-        cout << "\nPassenger Details:\n";
-        cout << "Name: " << name << endl;
-        cout << "ID: " << id << endl;
-        cout << "Contact: " << contact << endl;
-        cout << "Passport Number: " << passportnumber << endl;
-    }
-};
 // Baggage class used by Passenger (composition)
 class Baggage
 {
@@ -459,21 +382,28 @@ public:
     Baggage(int id, double w, string t) : baggageID(id), weight(w), type(t) {}
 
     // Getters
-    int getID() const { return baggageID; }
-    double getWeight() const { return weight; }
-    string getType() const { return type; }
+    int getID() const 
+    { 
+        return baggageID; 
+    }
+    double getWeight() const 
+    { 
+        return weight; 
+    }
+    string getType() const 
+    { 
+        return type; 
+    }
 
     void display()
     {
+        cout<<"\n------------Baggage Details-----------------\n\n";
         cout << "Baggage ID: " << baggageID << endl;
         cout << "Weight: " << weight << " kg" << endl;
         cout << "Type: " << type << endl;
     }
 
-    void tagBaggageToPassenger(Passenger &p)
-    {
-        cout << "Tagging baggage to passenger ID: " << p.id << ", Name: " << p.name << endl;
-    }
+    
 
     void checkSecurity()
     {
@@ -497,6 +427,95 @@ public:
 
 };
 
+// Passenger class inherits Airport, has a list of Baggage (composition)
+class Passenger : public Airport
+{
+protected:
+    string name;
+    int id;
+    int contact;
+    string passportnumber;
+    vector<Baggage> baggageList;
+
+public:
+    Passenger() {}
+    virtual ~Passenger() {}
+
+    Passenger(string airname, string loc, int code,string pname, int pid, int cont, string pass_no)
+        : Airport(airname, loc, code), name(pname), id(pid), contact(cont), passportnumber(pass_no) {}
+
+    string get_name() 
+    { 
+        return name;
+    }
+    int get_id() 
+    { 
+        return id; 
+    }
+    int get_contact() 
+    { 
+        return contact; 
+    }
+    string get_passport() 
+    { 
+        return passportnumber; 
+    }
+
+    // New: Register passenger
+    void registerPassenger()
+    {
+        cout << "\n---------------Registering Passenger-----------------\n\n";
+        cout << "Enter Name: ";
+        cin.ignore();
+        getline(cin, name);
+        cout << "Enter ID: ";
+        cin >> id;
+        cout << "Enter Contact Number: ";
+        cin >> contact;
+        cout << "Enter Passport Number: ";
+        cin.ignore();
+        getline(cin, passportnumber);
+        cout << "\n------------Passenger registered successfully--------------------------\n\n";
+    }
+
+    // New: Check-in method
+    void checkIn()
+    {
+        cout << "\nChecking in passenger: " << name << "\n";
+        cout << "Passport: " << passportnumber << "\n";
+        cout << "Contact: " << contact << "\n";
+        cout << "Check-in completed successfully.\n";
+    }
+    friend class Baggage; // Declared as a friend
+
+    void addBaggage(const Baggage &b)
+    {
+        baggageList.push_back(b);
+        cout << "\nBaggage added for passenger: " << name << endl;
+    }
+
+    void showBaggage()
+    {
+        cout << "\nBaggage details for passenger: " << name << endl;
+        for (size_t i = 0; i < baggageList.size(); ++i) 
+        {
+            baggageList[i].display();
+            cout << "----------------------\n";
+        }
+        
+    }
+
+    virtual void display()
+    {
+        Airport::display();
+        cout << "\n-------------------Passenger Details----------------------\n\n";
+        cout << "Name: " << name << endl;
+        cout << "ID: " << id << endl;
+        cout << "Contact: " << contact << endl;
+        cout << "Passport Number: " << passportnumber << endl;
+    }
+};
+
 // Ticket class inherits Passenger and includes Flight (composition)
 class Ticket : public Passenger
 {
@@ -508,7 +527,10 @@ class Ticket : public Passenger
         string ticket_class;
     public:
         Ticket(){};
-        virtual ~Ticket(){cout<<"Ticket destroyed";};
+        virtual ~Ticket()
+        {
+            cout<<"Ticket destroyed";
+        }
         Ticket(string airname, string loc, int code, string p_name, int p_id, int p_cont, string pass_num, string t_num, string s_num, const Flight f, double p, string t_class)
          : Passenger(airname, loc, code, p_name, p_id, p_cont, pass_num),ticket_number(t_num), seat_number(s_num), flight(f), price(p), ticket_class(t_class) {}
 
@@ -542,112 +564,214 @@ class Ticket : public Passenger
         {
             if (flight.is_seatavailable())
             {
-                cout << "Ticket " << ticket_number << " booked successfully for flight " << flight.getflightnum() << endl;
+                cout << "\nTicket " << ticket_number << " booked successfully for flight " << flight.getflightnum() << endl;
             }
             else
             {
-                cout << "Cannot book ticket. No seats available for flight " << flight.getflightnum() << endl;
+                cout << "\nCannot book ticket. No seats available for flight " << flight.getflightnum() << endl;
             }
         }
 
         void CancelTicket()
         {
-            cout << "Ticket " << ticket_number << " has been cancelled for passenger " << name << "." << endl;
+            cout << "\nTicket " << ticket_number << " has been cancelled for passenger " << name << "." << endl;
         }
 
         void display() 
         {
             Passenger::display();
-            cout << "\nTicket Information:\n";
+            cout << "\n---------------Ticket Information-----------------\n\n";
             cout << "Ticket Number: " << ticket_number << endl;
             cout << "Seat Number: " << seat_number << endl;
             cout << "Class: " << ticket_class << endl;
             cout << "Price: $" << price << endl;
-            cout << "\nFlight Details:\n";
             flight.display();
         }
 };
 
 int main()
 {
-    // 1. Create base Airport object
-    Airport a1("JFK International", "New York", 101);
-    a1.display();
-    cout << "--------------------------\n";
+    // Create a list of flights and initialize airline, staff, passenger, and ticket objects
+    vector<Flight> flightList;
+    Airline airline;
+    Staff staff;
+    Passenger passenger;
+    Ticket ticket;
 
-    // 2. Create Flights using Flight constructor
+    // Pre-defined flights for demonstration
     Flight f1("AA101", "Los Angeles", "08:00 AM", "11:30 AM", 150, 100, "JFK International", "New York", 101);
     Flight f2("AA202", "Miami", "02:00 PM", "05:00 PM", 200, 180, "JFK International", "New York", 101);
-    f1.display();
-    cout << "--------------------------\n";
-
-    // 3. Create Airline using composition
     Flight flightArray[2] = {f1, f2};
-    Airline airline("American Airlines", "AA", 2, flightArray);
-    airline.display();
-    cout << "--------------------------\n";
 
-    // 4. Add a new flight using aggregation
-    Flight f3("AA303", "Chicago", "06:00 PM", "08:30 PM", 180, 175, "JFK International", "New York", 101);
-    airline.addflight(f3);
+    // Initialize airline with pre-defined flights
+    airline = Airline("American Airlines", "AA", 2, flightArray);
 
-    // 5. Remove flight by value (aggregation)
-    airline.removeflight(f2);
-    airline.display();
-    cout << "--------------------------\n";
+    int choice; // Variable for user menu selection
 
-    // 6. Create Staff object, assign and remove task
-    Staff staff("JFK International", "New York", 101, 501, "Emily Smith", 50000.0, 1234567890, "Security");
-    staff.assign_task("Inspect carry-on luggage");
-    staff.assign_task("Guide passengers to gate");
-    staff.remove_task();
-    staff.display();
-    cout << "--------------------------\n";
+    // Menu loop starts
+    do
+    {
+        // Display menu options
+        cout << "\n----------- Airport Management System Menu ---------\n";
+        cout << "1. Display Airport Info\n";
+        cout << "2. Display Flights\n";
+        cout << "3. Add a Flight to Airline\n";
+        cout << "4. Remove a Flight from Airline\n";
+        cout << "5. Display Airline Details\n";
+        cout << "6. Register Staff and Assign Tasks\n";
+        cout << "7. Register Passenger and Check-in\n";
+        cout << "8. Add Baggage for Passenger\n";
+        cout << "9. Show Passenger Baggage\n";
+        cout << "10. Book and Cancel Ticket\n";
+        cout << "11. Demonstrate Polymorphism\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    // 7. Create Passenger and check-in
-    Passenger p1("JFK International", "New York", 101, "John Doe", 301, 987654321, "P998877");
-    p1.checkIn();
-    p1.display();
-    cout << "--------------------------\n";
+        // Process user choice with switch-case
+        switch (choice)
+        {
+        case 1:
+        {
+            // Display basic airport info
+            Airport a1("JFK International", "New York", 101);
+            a1.display();
+            break;
+        }
+        case 2:
+        {
+            // Display all flights
+            for (int i = 0; i < 2; ++i)
+                flightArray[i].display();
+            break;
+        }
+        case 3:
+        {
+            // Add a new flight to the airline
+            string fn, dest, dep, arr;
+            int ts, bs;
+            cout << "Enter Flight No: "; 
+            cin.ignore();
+            getline(cin, fn);
 
-    // 8. Add Baggage (composition), update status, show baggage
-    Baggage b1(1, 25.0, "Checked-in");
-    b1.tagBaggageToPassenger(p1);
-    b1.checkSecurity();
-    b1.updateStatus("Loaded");
-    p1.addBaggage(b1);
-    p1.showBaggage();
-    cout << "--------------------------\n";
+            cout << "Enter Destination: ";
+            cin.ignore();
+            getline(cin, dest);
 
-    // 9. Create Ticket (uses composition of Passenger + Flight)
-    Ticket t1("JFK International", "New York", 101, "John Doe", 301, 987654321, "P998877",
-              "TK123", "12A", f1, 350.0, "Economy");
+            cout << "Enter Departure Time: ";
+            cin.ignore();
+            getline(cin, dep);
 
-    // Book and cancel ticket
-    t1.BookTicket();
-    t1.display();
-    t1.CancelTicket();
-    cout << "--------------------------\n";
+            cout << "Enter Arrival Time: ";
+            cin.ignore();
+            getline(cin, arr);
 
-    // 10. Demonstrate Polymorphism using Airport pointer
-    Airport* ptr;
+            cout << "Enter Total Seats: "; cin >> ts;
+            cout << "Enter Booked Seats: "; cin >> bs;
 
-    ptr = &a1;
-    ptr->display();  // base display
+            Flight newFlight(fn, dest, dep, arr, ts, bs, "JFK International", "New York", 101);
+            airline.addflight(newFlight);
+            cout << "Flight added to airline.\n";
+            break;
+        }
+        case 4:
+        {
+            // Remove a flight from the airline using flight number
+            string fn;
+            cout << "Enter Flight Number to Remove: ";
+            cin >> fn;
+            Flight temp(fn, "", "", "", 0, 0, "", "", 0); // Minimal temp flight for comparison
+            airline.removeflight(temp);
+            break;
+        }
+        case 5:
+        {
+            // Display all airline details
+            airline.display();
+            break;
+        }
+        case 6:
+        {
+            // Register a staff member and assign/remove tasks
+            Staff staff1("JFK International", "New York", 101, 201, "Emily Smith", 55000, 987654321, "Security");
+            Staff staff2("JFK International","New York",101,980, "John Carter", 670000, 9234568907, "Pilot");
+            staff.assign_task("Inspect Luggage");
+            staff.assign_task("Boarding Assistance");
+            staff.remove_task(); // Remove last assigned task
+            staff.display(); // Display staff info
+            break;
+        }
+        case 7:
+        {
+            // Register a passenger and check in
+            passenger.registerPassenger();
+            passenger.checkIn();
+            passenger.display(); // Show passenger info
+            break;
+        }
+        case 8:
+        {
+            // Add baggage for the passenger
+            int id;
+            double weight;
+            string type;
+            cout << "Enter Baggage ID: ";
+            cin >> id;
+            cout << "Enter Weight: ";
+            cin >> weight;
+            cout << "Enter Type (e.g., Carry-on/Checked-in): ";
+            cin.ignore();
+            getline(cin, type);
 
-    ptr = &f1;
-    ptr->display();  // overridden in Flight
+            Baggage bag(id, weight, type);
+            bag.checkSecurity();         // Simulate security check
+            bag.updateStatus("Loaded");  // Update baggage status
+            passenger.addBaggage(bag);   // Add baggage to passenger
+            break;
+        }
+        case 9:
+        {
+            // Show all baggage linked to the passenger
+            passenger.showBaggage();
+            break;
+        }
+        case 10:
+        {
+            // Book a ticket and then cancel it
+            ticket = Ticket("JFK International", "New York", 101, passenger.get_name(), passenger.get_id(),
+                            passenger.get_contact(), passenger.get_passport(), "T001", "14B", f1, 300.0, "Economy");
+            ticket.BookTicket();   // Simulate booking
+            ticket.display();      // Show ticket info
+            ticket.CancelTicket(); // Cancel ticket
+            break;
+        }
+        case 11:
+        {
+            // Demonstrate polymorphism using base class pointer
+            Airport *ptr;
 
-    ptr = &staff;
-    ptr->display();  // overridden in Staff
+            ptr = &f1;
+            ptr->display(); // Call Flight's display
 
-    ptr = &p1;
-    ptr->display();  // overridden in Passenger
+            ptr = &staff;
+            ptr->display(); // Call Staff's display
 
-    ptr = &t1;
-    ptr->display();  // overridden in Ticket
+            ptr = &passenger;
+            ptr->display(); // Call Passenger's display
 
-    cout << "--------------------------\n";
+            ptr = &ticket;
+            ptr->display(); // Call Ticket's display
+            break;
+        }
+        case 0:
+            // Exit condition
+            cout << "Exiting system.\n";
+            break;
+        default:
+            // Handle invalid menu input
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0); // Repeat until user chooses to exit
 
-    return 0;
+    return 0; // End program
 }
