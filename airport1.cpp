@@ -219,6 +219,7 @@ class Flight : public Airport
                 flights = newflights;
                 num_flights++;
                 newflights[num_flights] = newflight;
+                delete[] flights;
                 flights = newflights;
 
             }
@@ -263,12 +264,12 @@ class Flight : public Airport
             int emp_id;
             string emp_name;
             double salary;
-            int emp_contact;
+            long int emp_contact;
             string role;
             vector<string> tasks; 
         public:
             Staff(){};
-            Staff(string air_name, string loc, int code, int id, string name, double sal, int cont,string r) : Airport(air_name,loc,code), emp_id(id), emp_name(name), salary(sal), emp_contact(cont), role(r) {};
+            Staff(string air_name, string loc, int code, int id, string name, double sal, long int cont,string r) : Airport(air_name,loc,code), emp_id(id), emp_name(name), salary(sal), emp_contact(cont), role(r) {};
             virtual ~Staff()
             {
                 cout<<"Staff destroyed\n";
@@ -287,13 +288,13 @@ class Flight : public Airport
         void set_id(int id);
         void set_name(string name);
         void set_salary(double salary);
-        void set_contact(int contact);
+        void set_contact(long int contact);
         void set_role(string role);
         //getters
         int get_id() const;
         string get_name() const;
         double get_salary() const;
-        int  get_contact() const;
+        long int  get_contact() const;
         string get_role()  const;
         //functions
         void remove_task();
@@ -326,7 +327,7 @@ void Staff::set_salary(double salary)
 {
     this->salary = salary;
 }
-void Staff::set_contact(int contact)
+void Staff::set_contact(long int contact)
 {
     emp_contact=contact;
 }
@@ -346,7 +347,7 @@ double Staff::get_salary()const
 {
     return salary;
 }
-int Staff::get_contact()const
+long int Staff::get_contact()const
 {
     return emp_contact;
 }
@@ -737,12 +738,36 @@ int main()
         }
         case 10:
         {
-            // Book a ticket and then cancel it
-            ticket = Ticket("JFK International", "New York", 101, passenger.get_name(), passenger.get_id(),
-                            passenger.get_contact(), passenger.get_passport(), "T001", "14B", f1, 300.0, "Economy");
-            ticket.BookTicket();   // Simulate booking
-            ticket.display();      // Show ticket info
-            ticket.CancelTicket(); // Cancel ticket
+            // Book and cancel ticket
+            string tnum, snum, tclass;
+            double price;
+
+            cout << "Enter Ticket Number: ";
+            cin.ignore();
+            getline(cin,tnum);
+            cout << "Enter Seat Number: ";
+            cin.ignore();
+            getline(cin,snum);
+            cout << "Enter Ticket Class (Economy/Business): ";
+            cin.ignore();
+            getline(cin, tclass);
+            cout << "Enter Price: ";
+            cin >> price;
+
+            // For simplicity, use existing f1 flight for ticket
+            ticket = Ticket("JFK International", "New York", 101,
+                            passenger.get_name(), passenger.get_id(), passenger.get_contact(), passenger.get_passport(),
+                            tnum, snum, f1, price, tclass);
+            ticket.BookTicket();
+            ticket.display();
+
+            // Simulate cancellation
+            char cancel;
+            cout << "\nDo you want to cancel the ticket? (y/n): ";
+            cin >> cancel;
+            if (cancel == 'y' || cancel == 'Y')
+                ticket.CancelTicket();
+
             break;
         }
         case 11:
