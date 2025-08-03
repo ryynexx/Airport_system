@@ -19,6 +19,7 @@ class Airport
             location = loc;
             code = c;
         }
+       
 
          // Setters
         void setname(string name)
@@ -49,14 +50,7 @@ class Airport
             return code;
         }
 
-        // Copy constructor
-        Airport(const Airport &other)
-        {
-            name = other.name;
-            location = other.location;
-            code = other.code;
-            cout << "Airport copy constructor called.\n";
-        }
+        
 
          // Virtual function for polymorphism
         virtual void display()
@@ -191,7 +185,13 @@ class Flight : public Airport
             Airline(){};
             ~Airline()
             {
-                delete[] flights;
+               
+               if (flights) 
+                    {
+                        delete[] flights;
+                        flights = nullptr;
+                    }
+                
             }
             // Constructor with flight array
             Airline(string name, string code, int n, Flight* flights_list )
@@ -207,22 +207,20 @@ class Flight : public Airport
             }
             
              // Add a new flight to airline
-            void addflight(const Flight &newflight)
-            {
-                Flight* newflights;
-                newflights = new Flight[num_flights+1];
-                for(int i=0; i<num_flights; i++)
-                {
-                    newflights[i] = flights[i];
-                }
-                delete flights;
-                flights = newflights;
-                num_flights++;
-                newflights[num_flights] = newflight;
-                delete[] flights;
-                flights = newflights;
-
-            }
+             void addflight(const Flight &newflight)
+             {
+                 Flight* newflights = new Flight[num_flights + 1];
+                 for (int i = 0; i < num_flights; i++)
+                 {
+                     newflights[i] = flights[i];
+                 }
+             
+                 newflights[num_flights] = newflight; // insert at correct index
+                 delete[] flights;
+                 flights = newflights;
+                 num_flights++;
+             }
+             
 
             // Remove a flight from airline
             void removeflight( Flight &cancelflight)
@@ -271,9 +269,7 @@ class Flight : public Airport
             Staff(){};
             Staff(string air_name, string loc, int code, int id, string name, double sal, long int cont,string r) : Airport(air_name,loc,code), emp_id(id), emp_name(name), salary(sal), emp_contact(cont), role(r) {};
             virtual ~Staff()
-            {
-                cout<<"Staff destroyed\n";
-            }
+            {}
 
             // Display assigned tasks
             void viewtasks()
@@ -440,7 +436,7 @@ protected:
 
 public:
     Passenger() {}
-    virtual ~Passenger() {}
+    virtual ~Passenger()   {}
 
     Passenger(string airname, string loc, int code,string pname, int pid, int cont, string pass_no)
         : Airport(airname, loc, code), name(pname), id(pid), contact(cont), passportnumber(pass_no) {}
@@ -528,10 +524,7 @@ class Ticket : public Passenger
         string ticket_class;
     public:
         Ticket(){};
-        virtual ~Ticket()
-        {
-            cout<<"Ticket destroyed";
-        }
+        virtual ~Ticket() {}
         Ticket(string airname, string loc, int code, string p_name, int p_id, int p_cont, string pass_num, string t_num, string s_num, const Flight f, double p, string t_class)
          : Passenger(airname, loc, code, p_name, p_id, p_cont, pass_num),ticket_number(t_num), seat_number(s_num), flight(f), price(p), ticket_class(t_class) {}
 
@@ -647,34 +640,32 @@ int main()
             break;
         }
         case 3:
-        {
-            // Add a new flight to the airline
-            string fn, dest, dep, arr;
-            int ts, bs;
-            cout << "Enter Flight No: "; 
-            cin.ignore();
-            getline(cin, fn);
+    {
+        // Add a new flight to the airline
+        string fn, dest, dep, arr;
+        int ts, bs;
+        
+        cout << "Enter Flight No: "; 
+        cin.ignore(); // Clear the newline from previous input
+        getline(cin, fn);
 
-            cout << "Enter Destination: ";
-            cin.ignore();
-            getline(cin, dest);
+        cout << "Enter Destination: ";
+        getline(cin, dest);
 
-            cout << "Enter Departure Time: ";
-            cin.ignore();
-            getline(cin, dep);
+        cout << "Enter Departure Time: ";
+        getline(cin, dep);
 
-            cout << "Enter Arrival Time: ";
-            cin.ignore();
-            getline(cin, arr);
+        cout << "Enter Arrival Time: ";
+        getline(cin, arr);
 
-            cout << "Enter Total Seats: "; cin >> ts;
-            cout << "Enter Booked Seats: "; cin >> bs;
+        cout << "Enter Total Seats: "; cin >> ts;
+        cout << "Enter Booked Seats: "; cin >> bs;
 
-            Flight newFlight(fn, dest, dep, arr, ts, bs, "JFK International", "New York", 101);
-            airline.addflight(newFlight);
-            cout << "Flight added to airline.\n";
-            break;
-        }
+        Flight newFlight(fn, dest, dep, arr, ts, bs, "JFK International", "New York", 101);
+        airline.addflight(newFlight);
+        cout << "Flight added to airline.\n";
+        break;
+    }
         case 4:
         {
             // Remove a flight from the airline using flight number
